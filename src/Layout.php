@@ -318,6 +318,7 @@ class Layout {
         if ( ! is_null($this->height))    { $result['height']    = $this->height; }
         if ( ! is_null($this->maxHeight)) { $result['maxHeight'] = $this->maxHeight; }
         if ( ! is_null($this->minHeight)) { $result['minHeight'] = $this->minHeight; }
+        if ( ! is_null($this->gap))       { $result['gap']       = $this->gap; }
 
 
         if ($this->sizes) {

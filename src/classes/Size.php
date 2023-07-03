@@ -11,6 +11,7 @@ class Size {
     private $justify   = null;
     private $align     = null;
     private $wrap      = null;
+    private $fill      = null;
 
 
     /**
@@ -62,6 +63,18 @@ class Size {
 
 
     /**
+     * Установка признака заполнения
+     * @param bool|null $fill
+     * @return $this
+     */
+    public function fill(bool $fill = null): self {
+
+        $this->fill = $fill;
+        return $this;
+    }
+
+
+    /**
      * @return array
      */
     public function toArray(): array {
@@ -72,6 +85,7 @@ class Size {
         if ( ! is_null($this->justify))   { $result['justify']   = $this->justify; }
         if ( ! is_null($this->align))     { $result['align']     = $this->align; }
         if ( ! is_null($this->wrap))      { $result['wrap']      = $this->wrap; }
+        if ( ! is_null($this->fill))      { $result['fill']      = $this->fill; }
 
         return $result;
     }
