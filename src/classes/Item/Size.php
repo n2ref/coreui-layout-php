@@ -7,10 +7,10 @@ namespace CoreUI\classes\Item;
  */
 class Size {
 
-    private $align  = null;
-    private $order  = null;
-    private $fill   = false;
-    private $column = 0;
+    private $align       = null;
+    private $order       = null;
+    private $fill        = false;
+    private $widthColumn = 0;
 
 
     /**
@@ -54,9 +54,9 @@ class Size {
      * @param int $column
      * @return $this
      */
-    public function col(int $column): self {
+    public function widthColumn(int $column): self {
 
-        $this->column = $column;
+        $this->widthColumn = $column;
         return $this;
     }
 
@@ -68,10 +68,10 @@ class Size {
 
         $result = [];
 
-        if ( ! is_null($this->order)) { $result['order'] = $this->order; }
-        if ( ! is_null($this->align)) { $result['align'] = $this->align; }
-        if ( ! is_null($this->fill))  { $result['fill']  = $this->fill; }
-        if ($this->column > 0)        { $result['col']   = $this->column; }
+        if ( ! is_null($this->order)) { $result['order']       = $this->order; }
+        if ( ! is_null($this->align)) { $result['align']       = $this->align; }
+        if ( ! is_null($this->fill))  { $result['fill']        = $this->fill; }
+        if ($this->widthColumn > 0)   { $result['widthColumn'] = $this->widthColumn; }
 
         return $result;
     }

@@ -9,21 +9,22 @@ require_once 'Item/Size.php';
  */
 class Item {
 
-    private $id        = '';
-    private $align     = null;
-    private $fill      = null;
-    private $order     = null;
-    private $overflow  = null;
-    private $overflowX = null;
-    private $overflowY = null;
-    private $width     = null;
-    private $minWidth  = null;
-    private $maxWidth  = null;
-    private $height    = null;
-    private $minHeight = null;
-    private $maxHeight = null;
-    private $content   = null;
-    private $sizes     = [];
+    private $id          = '';
+    private $align       = null;
+    private $fill        = null;
+    private $order       = null;
+    private $overflow    = null;
+    private $overflowX   = null;
+    private $overflowY   = null;
+    private $width       = null;
+    private $minWidth    = null;
+    private $maxWidth    = null;
+    private $height      = null;
+    private $minHeight   = null;
+    private $maxHeight   = null;
+    private $content     = null;
+    private $widthColumn = null;
+    private $sizes       = [];
 
 
     /**
@@ -91,13 +92,26 @@ class Item {
 
 
     /**
-     * становка способа переполнения содержимого в элементе
+     * Установка способа переполнения содержимого в элементе
      * @param string|null $overflow
      * @return Item
      */
     public function overflow(string $overflow = null): self {
 
         $this->overflow = $overflow;
+
+        return $this;
+    }
+
+
+    /**
+     * Установка ширины элемента в колонках
+     * @param int $column
+     * @return Item
+     */
+    public function widthColumn(int $column): self {
+
+        $this->widthColumn = $column;
 
         return $this;
     }
@@ -231,18 +245,19 @@ class Item {
             'id' => $this->id,
         ];
 
-        if ($this->fill)                  { $result['fill']      = $this->fill; }
-        if ( ! is_null($this->align))     { $result['align']     = $this->align; }
-        if ( ! is_null($this->order))     { $result['order']     = $this->order; }
-        if ( ! is_null($this->overflow))  { $result['overflow']  = $this->overflow; }
-        if ( ! is_null($this->overflowX)) { $result['overflowX'] = $this->overflowX; }
-        if ( ! is_null($this->overflowY)) { $result['overflowY'] = $this->overflowY; }
-        if ( ! is_null($this->width))     { $result['width']     = $this->width; }
-        if ( ! is_null($this->minWidth))  { $result['minWidth']  = $this->minWidth; }
-        if ( ! is_null($this->maxWidth))  { $result['maxWidth']  = $this->maxWidth; }
-        if ( ! is_null($this->height))    { $result['height']    = $this->height; }
-        if ( ! is_null($this->minHeight)) { $result['minHeight'] = $this->minHeight; }
-        if ( ! is_null($this->maxHeight)) { $result['maxHeight'] = $this->maxHeight; }
+        if ($this->fill)                  { $result['fill']        = $this->fill; }
+        if ( ! is_null($this->align))     { $result['align']       = $this->align; }
+        if ( ! is_null($this->order))     { $result['order']       = $this->order; }
+        if ( ! is_null($this->overflow))  { $result['overflow']    = $this->overflow; }
+        if ( ! is_null($this->overflowX)) { $result['overflowX']   = $this->overflowX; }
+        if ( ! is_null($this->overflowY)) { $result['overflowY']   = $this->overflowY; }
+        if ( ! is_null($this->width))     { $result['width']       = $this->width; }
+        if ( ! is_null($this->minWidth))  { $result['minWidth']    = $this->minWidth; }
+        if ( ! is_null($this->maxWidth))  { $result['maxWidth']    = $this->maxWidth; }
+        if ( ! is_null($this->height))    { $result['height']      = $this->height; }
+        if ( ! is_null($this->minHeight)) { $result['minHeight']   = $this->minHeight; }
+        if ( ! is_null($this->maxHeight)) { $result['maxHeight']   = $this->maxHeight; }
+        if ($this->widthColumn > 0)       { $result['widthColumn'] = $this->widthColumn; }
 
         if ($this->sizes) {
             $result['sizes'] = [];
