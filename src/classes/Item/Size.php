@@ -7,9 +7,10 @@ namespace CoreUI\classes\Item;
  */
 class Size {
 
-    private $align = null;
-    private $order = null;
-    private $fill  = false;
+    private $align  = null;
+    private $order  = null;
+    private $fill   = false;
+    private $column = 0;
 
 
     /**
@@ -49,6 +50,18 @@ class Size {
 
 
     /**
+     * Ширина в количестве колонок
+     * @param int $column
+     * @return $this
+     */
+    public function col(int $column): self {
+
+        $this->column = $column;
+        return $this;
+    }
+
+
+    /**
      * @return array
      */
     public function toArray(): array {
@@ -58,6 +71,7 @@ class Size {
         if ( ! is_null($this->order)) { $result['order'] = $this->order; }
         if ( ! is_null($this->align)) { $result['align'] = $this->align; }
         if ( ! is_null($this->fill))  { $result['fill']  = $this->fill; }
+        if ($this->column > 0)        { $result['col']   = $this->column; }
 
         return $result;
     }

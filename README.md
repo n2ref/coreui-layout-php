@@ -91,7 +91,8 @@ Output
           "xxl": {
             "align": "end",
             "fill": true,
-            "order": 2
+            "order": 2,
+            "col": 0
           }
         }
       }
