@@ -1,5 +1,5 @@
 <?php
-namespace CoreUI\classes;
+namespace CoreUI\Layout;
 
 
 /**
