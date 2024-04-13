@@ -1,13 +1,11 @@
 <?php
 namespace CoreUI;
-use CoreUI\classes\Dropdown;
-use CoreUI\classes\Item;
-use CoreUI\classes\Size;
-use CoreUI\classes\Tab;
+use CoreUI\Layout\Item;
+use CoreUI\Layout\Size;
 
 
-require_once 'classes/Item.php';
-require_once 'classes/Size.php';
+require_once 'Layout/Item.php';
+require_once 'Layout/Size.php';
 
 
 /**
