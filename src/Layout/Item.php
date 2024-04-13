@@ -1,5 +1,5 @@
 <?php
-namespace CoreUI\classes;
+namespace CoreUI\Layout;
 
 require_once 'Item/Size.php';
 

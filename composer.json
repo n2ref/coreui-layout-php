@@ -1,5 +1,5 @@
 {
-  "name": "n2ref/coreui-layout-php",
+  "name": "n2ref/coreui-layout",
   "type": "framework",
   "description": "PHP framework for web applications",
   "keywords": [
@@ -21,7 +21,8 @@
   },
   "autoload": {
     "psr-4": {
-      "CoreUI\\": "src/"
+      "CoreUI\\": "src/",
+      "CoreUI\\Layout\\": "src/Layout"
     }
   }
 }

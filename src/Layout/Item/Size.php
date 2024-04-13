@@ -1,5 +1,5 @@
 <?php
-namespace CoreUI\classes\Item;
+namespace CoreUI\Layout\Item;
 
 
 /**
