@@ -9,22 +9,22 @@ require_once 'Item/Size.php';
  */
 class Item {
 
-    private $id          = '';
-    private $align       = null;
-    private $fill        = null;
-    private $order       = null;
-    private $overflow    = null;
-    private $overflowX   = null;
-    private $overflowY   = null;
-    private $width       = null;
-    private $minWidth    = null;
-    private $maxWidth    = null;
-    private $height      = null;
-    private $minHeight   = null;
-    private $maxHeight   = null;
-    private $content     = null;
-    private $widthColumn = null;
-    private $sizes       = [];
+    private ?string                     $id          = '';
+    private ?string                     $align       = null;
+    private ?bool                       $fill        = null;
+    private ?string                     $order       = null;
+    private ?string                     $overflow    = null;
+    private ?string                     $overflowX   = null;
+    private ?string                     $overflowY   = null;
+    private string | int | float | null $width       = null;
+    private string | int | float | null $width_min   = null;
+    private string | int | float | null $width_max   = null;
+    private string | int | float | null $height      = null;
+    private string | int | float | null $height_min  = null;
+    private string | int | float | null $height_max  = null;
+    private string | array | null       $content     = null;
+    private ?int                        $widthColumn = null;
+    private array                       $sizes       = [];
 
 
     /**
@@ -32,36 +32,48 @@ class Item {
      */
     public function __construct(string $id = null) {
 
-        if ($id) {
-            $this->id = $id;
-        } else {
-            $this->id = crc32(uniqid());
-        }
+        $this->id = $id ?: crc32(uniqid());
     }
 
 
     /**
-     * Выравнивание flex-элемента в контейнере по оси Y
+     * Установка выравнивания flex-элемента в контейнере по оси Y
      * @param string|null $align
      */
-    public function align(string $align = null): self {
+    public function setAlign(string $align = null): self {
 
         $this->align = $align;
-
         return $this;
     }
 
 
     /**
-     * Элемент с таким признаком будет занимать все доступное горизонтальное пространство
+     * Получение выравнивания flex-элемента в контейнере по оси Y
+     * @return string|null
+     */
+    public function getAlign():? string {
+        return $this->align;
+    }
+
+
+    /**
+     * Установка признака для занятия всего доступного горизонтального пространства
      * @param bool $fill
      * @return Item
      */
-    public function fill(bool $fill): self {
+    public function setFill(bool $fill): self {
 
         $this->fill = $fill;
-
         return $this;
+    }
+
+
+    /**
+     * Получение признака для занятия всего доступного горизонтального пространства
+     * @return bool|null
+     */
+    public function getFill():? bool {
+        return $this->fill;
     }
 
 
@@ -70,24 +82,40 @@ class Item {
      * @param int|null $order
      * @return Item
      */
-    public function order(int $order = null): self {
+    public function setOrder(int $order = null): self {
 
         $this->order = $order;
-
         return $this;
     }
 
 
     /**
-     * Содержимое внутри элемента. Может быть как текст, так и вложенный объект CoreUI
+     * Получение визуального порядка для элемента
+     * @return int|null
+     */
+    public function getOrder():? int {
+        return $this->order;
+    }
+
+
+    /**
+     * Установка содержимого внутри элемента. Может быть как текст, так и вложенный объект CoreUI
      * @param string|array|null $content
      * @return Item
      */
-    public function content(string|array $content = null): self {
+    public function setContent(string|array $content = null): self {
 
         $this->content = $content;
-
         return $this;
+    }
+
+
+    /**
+     * Получение содержимого внутри элемента. Может быть как текст, так и вложенный объект CoreUI
+     * @return string|array|null
+     */
+    public function getContent(): string|array|null {
+        return $this->content;
     }
 
 
@@ -96,11 +124,19 @@ class Item {
      * @param string|null $overflow
      * @return Item
      */
-    public function overflow(string $overflow = null): self {
+    public function setOverflow(string $overflow = null): self {
 
         $this->overflow = $overflow;
-
         return $this;
+    }
+
+
+    /**
+     * Получение способа переполнения содержимого в элементе
+     * @return string|null
+     */
+    public function getOverflow():? string {
+        return $this->overflow;
     }
 
 
@@ -109,11 +145,19 @@ class Item {
      * @param int $column
      * @return Item
      */
-    public function widthColumn(int $column): self {
+    public function setWidthColumn(int $column): self {
 
         $this->widthColumn = $column;
-
         return $this;
+    }
+
+
+    /**
+     * Получение ширины элемента в колонках
+     * @return int|null
+     */
+    public function getWidthColumn():? int {
+        return $this->widthColumn;
     }
 
 
@@ -122,11 +166,19 @@ class Item {
      * @param string|null $overflowX
      * @return Item
      */
-    public function overflowX(string $overflowX = null): self {
+    public function setOverflowX(string $overflowX = null): self {
 
         $this->overflowX = $overflowX;
-
         return $this;
+    }
+
+
+    /**
+     * Получение способа переполнения элементов в элементе по оси X
+     * @return string|null
+     */
+    public function getOverflowX():? string {
+        return $this->overflowX;
     }
 
 
@@ -135,89 +187,145 @@ class Item {
      * @param string|null $overflowY
      * @return Item
      */
-    public function overflowY(string $overflowY = null): self {
+    public function setOverflowY(string $overflowY = null): self {
 
         $this->overflowY = $overflowY;
-
         return $this;
     }
 
 
     /**
-     * Ширина элемента в пикселях или других единицах
+     * Получение способа переполнения элементов в элементе по оси Y
+     * @return string|null
+     */
+    public function getOverflowY():? string {
+        return $this->overflowY;
+    }
+
+
+    /**
+     * Установка ширины элемента в пикселях или других единицах
      * @param string|int|float|null $width
      * @return Item
      */
-    public function width(string|int|float $width = null): self {
+    public function setWidth(string|int|float $width = null): self {
 
         $this->width = $width;
-
         return $this;
     }
 
 
     /**
-     * Минимальная ширина элемента в пикселях или других единицах
-     * @param string|int|float|null $minWidth
+     * Получение ширины элемента в пикселях или других единицах
+     * @return string|int|float|null
+     */
+    public function getWidth(): string|int|float|null {
+        return $this->width;
+    }
+
+
+    /**
+     * Установка минимальной ширины элемента в пикселях или других единицах
+     * @param string|int|float|null $width
      * @return Item
      */
-    public function minWidth(string|int|float $minWidth = null): self {
+    public function setWidthMin(string|int|float $width = null): self {
 
-        $this->minWidth = $minWidth;
-
+        $this->width_min = $width;
         return $this;
     }
 
 
     /**
-     * Максимальная ширина элемента в пикселях или других единицах
-     * @param string|int|float|null $maxWidth
+     * Получение минимальной ширины элемента в пикселях или других единицах
+     * @return string|int|float|null
+     */
+    public function getWidthMin(): string|int|float|null {
+        return $this->width_min;
+    }
+
+
+    /**
+     * Установка максимальной ширина элемента в пикселях или других единицах
+     * @param string|int|float|null $width
      * @return Item
      */
-    public function maxWidth(string|int|float $maxWidth = null): self {
+    public function setWidthMax(string|int|float $width = null): self {
 
-        $this->maxWidth = $maxWidth;
-
+        $this->width_max = $width;
         return $this;
     }
 
 
     /**
-     * Высота элемента в пикселях или других единицах
+     * Получение максимальной ширины элемента в пикселях или других единицах
+     * @return string|int|float|null
+     */
+    public function getWidthMax(): string|int|float|null {
+        return $this->width_max;
+    }
+
+
+    /**
+     * Установка высоты элемента в пикселях или других единицах
      * @param string|int|float|null $height
      * @return Item
      */
-    public function height(string|int|float $height = null): self {
+    public function setHeight(string|int|float $height = null): self {
 
         $this->height = $height;
-
         return $this;
     }
 
 
     /**
-     * Минимальная высота элемента в пикселях или других единицах
-     * @param string|int|float|null $minHeight
+     * Получение высоты элемента в пикселях или других единицах
+     * @return string|int|float|null
+     */
+    public function getHeight(): string|int|float|null {
+        return $this->height;
+    }
+
+
+    /**
+     * Установка минимальной высоты элемента в пикселях или других единицах
+     * @param string|int|float|null $height
      * @return Item
      */
-    public function minHeight(string|int|float $minHeight = null): self {
+    public function setHeightMin(string|int|float $height = null): self {
 
-        $this->minHeight = $minHeight;
-
+        $this->height_min = $height;
         return $this;
     }
 
 
     /**
-     * Минимальная высота элемента в пикселях или других единицах
-     * @param string|int|float|null $maxHeight
+     * Получение минимальной высоты элемента в пикселях или других единицах
+     * @return string|int|float|null
+     */
+    public function getHeightMin(): string|int|float|null {
+        return $this->height_min;
+    }
+
+
+    /**
+     * Установка минимальной высоты элемента в пикселях или других единицах
+     * @param string|int|float|null $height
      * @return Item
      */
-    public function maxHeight(string|int|float $maxHeight = null): self {
+    public function setHeightMax(string|int|float $height = null): self {
 
-        $this->maxHeight = $maxHeight;
-
+        $this->height_max = $height;
         return $this;
+    }
+
+
+    /**
+     * Получение минимальной высоты элемента в пикселях или других единицах
+     * @return string|int|float|null
+     */
+    public function getHeightMax(): string|int|float|null {
+        return $this->height_max;
     }
 
 
@@ -231,8 +339,24 @@ class Item {
         $size_instance = new Item\Size();
 
         $this->sizes[$size] = $size_instance;
-
         return $size_instance;
+    }
+
+
+    /**
+     * Получение настроек под размер
+     * @return Item\Size[]
+     */
+    public function getSizes(): array {
+        return $this->sizes;
+    }
+
+
+    /**
+     * Очистка настроек под размер
+     */
+    public function clearSizes(): void {
+        $this->sizes = [];
     }
 
 
@@ -252,11 +376,11 @@ class Item {
         if ( ! is_null($this->overflowX)) { $result['overflowX']   = $this->overflowX; }
         if ( ! is_null($this->overflowY)) { $result['overflowY']   = $this->overflowY; }
         if ( ! is_null($this->width))     { $result['width']       = $this->width; }
-        if ( ! is_null($this->minWidth))  { $result['minWidth']    = $this->minWidth; }
-        if ( ! is_null($this->maxWidth))  { $result['maxWidth']    = $this->maxWidth; }
+        if ( ! is_null($this->width_min))  {$result['minWidth'] = $this->width_min; }
+        if ( ! is_null($this->width_max))  {$result['maxWidth'] = $this->width_max; }
         if ( ! is_null($this->height))    { $result['height']      = $this->height; }
-        if ( ! is_null($this->minHeight)) { $result['minHeight']   = $this->minHeight; }
-        if ( ! is_null($this->maxHeight)) { $result['maxHeight']   = $this->maxHeight; }
+        if ( ! is_null($this->height_min)) {$result['minHeight'] = $this->height_min; }
+        if ( ! is_null($this->height_max)) {$result['maxHeight'] = $this->height_max; }
         if ($this->widthColumn > 0)       { $result['widthColumn'] = $this->widthColumn; }
 
         if ($this->sizes) {

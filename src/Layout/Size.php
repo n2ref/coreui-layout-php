@@ -7,11 +7,11 @@ namespace CoreUI\Layout;
  */
 class Size {
 
-    private $direction = null;
-    private $justify   = null;
-    private $align     = null;
-    private $wrap      = null;
-    private $fill      = null;
+    private ?string $direction = null;
+    private ?string $justify   = null;
+    private ?string $align     = null;
+    private ?string $wrap      = null;
+    private ?string $fill      = null;
 
 
     /**
@@ -19,7 +19,7 @@ class Size {
      * @param string|null $direction
      * @return $this
      */
-    public function direction(string $direction = null): self {
+    public function setDirection(string $direction = null): self {
 
         $this->direction = $direction;
         return $this;
@@ -27,11 +27,20 @@ class Size {
 
 
     /**
-     * Выравнивание flex-элементов в контейнере по оси X
+     * Получение направления flex-элементов в контейнере.
+     * @return string|null
+     */
+    public function getDirection():? string {
+        return $this->direction;
+    }
+
+
+    /**
+     * Установка выравнивания flex-элементов в контейнере по оси X
      * @param string|null $justify
      * @return $this
      */
-    public function justify(string $justify = null): self {
+    public function setJustify(string $justify = null): self {
 
         $this->justify = $justify;
         return $this;
@@ -39,14 +48,32 @@ class Size {
 
 
     /**
-     * Выравнивание flex-элементов в контейнере по оси Y
+     * Получение выравнивания flex-элементов в контейнере по оси X
+     * @return string|null
+     */
+    public function getJustify():? string {
+        return $this->justify;
+    }
+
+
+    /**
+     * Установка выравнивания flex-элементов в контейнере по оси Y
      * @param string|null $align
      * @return $this
      */
-    public function align(string $align = null): self {
+    public function setAlign(string $align = null): self {
 
         $this->align = $align;
         return $this;
+    }
+
+
+    /**
+     * Получение flex-элементов в контейнере по оси Y
+     * @return string|null
+     */
+    public function getAlign():? string {
+        return $this->align;
     }
 
 
@@ -55,10 +82,19 @@ class Size {
      * @param string|null $wrap
      * @return $this
      */
-    public function wrap(string $wrap = null): self {
+    public function setWrap(string $wrap = null): self {
 
         $this->wrap = $wrap;
         return $this;
+    }
+
+
+    /**
+     * Получение способа переноса flex-элементов в контейнере
+     * @return string|null
+     */
+    public function getWrap():? string {
+        return $this->wrap;
     }
 
 
@@ -67,10 +103,19 @@ class Size {
      * @param bool|null $fill
      * @return $this
      */
-    public function fill(bool $fill = null): self {
+    public function setFill(bool $fill = null): self {
 
         $this->fill = $fill;
         return $this;
+    }
+
+
+    /**
+     * Получение признака заполнения
+     * @return string|null
+     */
+    public function getFill():? string {
+        return $this->fill;
     }
 
 

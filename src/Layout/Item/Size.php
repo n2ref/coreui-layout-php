@@ -7,21 +7,30 @@ namespace CoreUI\Layout\Item;
  */
 class Size {
 
-    private $align       = null;
-    private $order       = null;
-    private $fill        = false;
-    private $widthColumn = 0;
+    private ?string $align       = null;
+    private ?int $order       = null;
+    private ?bool   $fill        = false;
+    private ?int    $widthColumn = 0;
 
 
     /**
-     * Выравнивание flex-элемента в контейнере по оси Y
+     * Установка выравнивания flex-элемента в контейнере по оси Y
      * @param string|null $align
      * @return $this
      */
-    public function align(string $align = null): self {
+    public function setAlign(string $align = null): self {
 
         $this->align = $align;
         return $this;
+    }
+
+
+    /**
+     * Получение выравнивания flex-элемента в контейнере по оси Y
+     * @return string|null
+     */
+    public function getAlign():? string {
+        return $this->align;
     }
 
 
@@ -30,7 +39,7 @@ class Size {
      * @param int|null $order
      * @return $this
      */
-    public function order(int $order = null): self {
+    public function setOrder(int $order = null): self {
 
         $this->order = $order;
         return $this;
@@ -38,11 +47,20 @@ class Size {
 
 
     /**
-     * Элемент с таким признаком будет занимать все доступное горизонтальное пространство
+     * Получение визуального порядка для элемента
+     * @return int|null
+     */
+    public function getOrder():? int {
+        return $this->order;
+    }
+
+
+    /**
+     * Установка признака для занятия всего доступного горизонтального пространства
      * @param bool $fill
      * @return $this
      */
-    public function fill(bool $fill): self {
+    public function setFill(bool $fill): self {
 
         $this->fill = $fill;
         return $this;
@@ -50,14 +68,32 @@ class Size {
 
 
     /**
-     * Ширина в количестве колонок
+     * Получение признака для занятия всего доступного горизонтального пространства
+     * @return bool|null
+     */
+    public function getFill():? bool {
+        return $this->fill;
+    }
+
+
+    /**
+     * Установка ширины в количестве колонок
      * @param int $column
      * @return $this
      */
-    public function widthColumn(int $column): self {
+    public function setWidthColumn(int $column): self {
 
         $this->widthColumn = $column;
         return $this;
+    }
+
+
+    /**
+     * Получение ширины в количестве колонок
+     * @return int|null
+     */
+    public function getWidthColumn():? int {
+        return $this->widthColumn;
     }
 
 
