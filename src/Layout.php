@@ -53,23 +53,23 @@ class Layout {
     const ORDER_4 = 4;
     const ORDER_5 = 5;
 
-    private $id        = null;
-    private $justify   = null;
-    private $align     = null;
-    private $direction = null;
-    private $wrap      = null;
-    private $overflow  = null;
-    private $overflowX = null;
-    private $overflowY = null;
-    private $width     = null;
-    private $minWidth  = null;
-    private $maxWidth  = null;
-    private $height    = null;
-    private $minHeight = null;
-    private $maxHeight = null;
-    private $gap       = null;
-    private $items     = [];
-    private $sizes     = [];
+    private ?string                     $id         = null;
+    private ?string                     $justify    = null;
+    private ?string                     $align      = null;
+    private ?string                     $direction  = null;
+    private ?string                     $wrap       = null;
+    private ?string                     $overflow   = null;
+    private ?string                     $overflowX  = null;
+    private ?string                     $overflowY  = null;
+    private string | int | float | null $width      = null;
+    private string | int | float | null $width_min  = null;
+    private string | int | float | null $width_max  = null;
+    private string | int | float | null $height     = null;
+    private string | int | float | null $height_min = null;
+    private string | int | float | null $height_max = null;
+    private string | int | float | null $gap        = null;
+    private array                       $items      = [];
+    private array                       $sizes      = [];
 
 
     /**
@@ -77,35 +77,47 @@ class Layout {
      */
     public function __construct(string $layout_id = null) {
 
-        if ($layout_id) {
-            $this->id = $layout_id;
-        } else {
-            $this->id = crc32(uniqid());
-        }
+        $this->id = $layout_id ?: crc32(uniqid());
     }
 
 
     /**
-     * Выравнивание flex-элементов в контейнере по оси X
+     * Установка выравнивания flex-элементов в контейнере по оси X
      * @param string|null $justify
      */
-    public function justify(string $justify = null): self {
+    public function setJustify(string $justify = null): self {
 
         $this->justify = $justify;
-
         return $this;
     }
 
 
     /**
-     * Выравнивание flex-элементов в контейнере по оси Y
+     * Получение выравнивания flex-элементов в контейнере по оси X
+     * @return string|null
+     */
+    public function getJustify():? string {
+        return $this->justify;
+    }
+
+
+    /**
+     * Установка выравнивания flex-элементов в контейнере по оси Y
      * @param string|null $align
      */
-    public function align(string $align = null): self {
+    public function setAlign(string $align = null): self {
 
         $this->align = $align;
-
         return $this;
+    }
+
+
+    /**
+     * Получение выравнивания flex-элементов в контейнере по оси Y
+     * @return string|null
+     */
+    public function getAlign():? string {
+        return $this->align;
     }
 
 
@@ -113,11 +125,19 @@ class Layout {
      * Установка направления flex-элементов в контейнере
      * @param string|null $direction
      */
-    public function direction(string $direction = null): self {
+    public function setDirection(string $direction = null): self {
 
         $this->direction = $direction;
-
         return $this;
+    }
+
+
+    /**
+     * Получение направления flex-элементов в контейнере
+     * @return string|null
+     */
+    public function getDirection():? string {
+        return $this->direction;
     }
 
 
@@ -125,11 +145,19 @@ class Layout {
      * Установка способа переноса flex-элементов в контейнере
      * @param string|null $wrap
      */
-    public function wrap(string $wrap = null): self {
+    public function setWrap(string $wrap = null): self {
 
         $this->wrap = $wrap;
-
         return $this;
+    }
+
+
+    /**
+     * Получение способа переноса flex-элементов в контейнере
+     * @return string|null
+     */
+    public function getWrap():? string {
+        return $this->wrap;
     }
 
 
@@ -137,11 +165,19 @@ class Layout {
      * Установка способа переполнения элементов в контейнере
      * @param string|null $overflow
      */
-    public function overflow(string $overflow = null): self {
+    public function setOverflow(string $overflow = null): self {
 
         $this->overflow = $overflow;
-
         return $this;
+    }
+
+
+    /**
+     * Получение способа переполнения элементов в контейнере
+     * @return string|null
+     */
+    public function getOverflow():? string {
+        return $this->overflow;
     }
 
 
@@ -149,11 +185,19 @@ class Layout {
      * Установка способа переполнения элементов в контейнере по оси X
      * @param string|null $overflowX
      */
-    public function overflowX(string $overflowX = null): self {
+    public function setOverflowX(string $overflowX = null): self {
 
         $this->overflowX = $overflowX;
-
         return $this;
+    }
+
+
+    /**
+     * Получение способа переполнения элементов в контейнере по оси X
+     * @return string|null
+     */
+    public function getOverflowX():? string {
+        return $this->overflowX;
     }
 
 
@@ -161,104 +205,168 @@ class Layout {
      * Установка способа переполнения элементов в контейнере по оси Y
      * @param string|null $overflowY
      */
-    public function overflowY(string $overflowY = null): self {
+    public function setOverflowY(string $overflowY = null): self {
 
         $this->overflowY = $overflowY;
-
         return $this;
     }
 
 
     /**
-     * Ширина контейнера в пикселях или других единицах
+     * Получение способа переполнения элементов в контейнере по оси Y
+     * @return string|null
+     */
+    public function getOverflowY():? string {
+        return $this->overflowY;
+    }
+
+
+    /**
+     * Установка ширины контейнера в пикселях или других единицах
      * @param string|int|float|null $width
      * @return Layout
      */
-    public function width(string|int|float $width = null): self {
+    public function setWidth(string|int|float $width = null): self {
 
         $this->width = $width;
-
         return $this;
     }
 
 
     /**
-     * Минимальная ширина контейнера в пикселях или других единицах
-     * @param string|int|float|null $minWidth
+     * Получение ширины контейнера в пикселях или других единицах
+     * @return string|int|float|null
+     */
+    public function getWidth(): string|int|float|null {
+        return $this->width;
+    }
+
+
+    /**
+     * Установка минимальной ширины контейнера в пикселях или других единицах
+     * @param string|int|float|null $width
      * @return Layout
      */
-    public function minWidth(string|int|float $minWidth = null): self {
+    public function setWidthMin(string|int|float $width = null): self {
 
-        $this->minWidth = $minWidth;
-
+        $this->width_min = $width;
         return $this;
     }
 
 
     /**
-     * Максимальная ширина контейнера в пикселях или других единицах
-     * @param string|int|float|null $maxWidth
+     * Получение минимальной ширины контейнера в пикселях или других единицах
+     * @return string|int|float|null
+     */
+    public function getWidthMin(): string|int|float|null {
+        return $this->width_min;
+    }
+
+
+    /**
+     * Установка максимальной ширины контейнера в пикселях или других единицах
+     * @param string|int|float|null $width
      * @return Layout
      */
-    public function maxWidth(string|int|float $maxWidth = null): self {
+    public function setWidthMax(string|int|float $width = null): self {
 
-        $this->maxWidth = $maxWidth;
-
+        $this->width_max = $width;
         return $this;
     }
 
 
     /**
-     * Высота контейнера в пикселях или других единицах
+     * Получение максимальной ширины контейнера в пикселях или других единицах
+     * @return string|int|float|null
+     */
+    public function getWidthMax(): string|int|float|null {
+        return $this->width_max;
+    }
+
+
+    /**
+     * Установка высоты контейнера в пикселях или других единицах
      * @param string|int|float|null $height
      * @return Layout
      */
-    public function height(string|int|float $height = null): self {
+    public function setHeight(string|int|float $height = null): self {
 
         $this->height = $height;
-
         return $this;
     }
 
 
     /**
-     * Минимальная высота контейнера в пикселях или других единицах
-     * @param string|int|float|null $minHeight
+     * Получение высоты контейнера в пикселях или других единицах
+     * @return string|int|float|null
+     */
+    public function getHeight(): string|int|float|null {
+        return $this->height;
+    }
+
+
+    /**
+     * Установка минимальной высоты контейнера в пикселях или других единицах
+     * @param string|int|float|null $height
      * @return Layout
      */
-    public function minHeight(string|int|float $minHeight = null): self {
+    public function setHeightMin(string|int|float $height = null): self {
 
-        $this->minHeight = $minHeight;
-
+        $this->height_min = $height;
         return $this;
+    }
+
+
+    /**
+     * Получение минимальной высоты контейнера в пикселях или других единицах
+     * @return string|int|float|null
+     */
+    public function getHeightMin(): string|int|float|null {
+        return $this->height_min;
     }
 
 
 
     /**
-     * Минимальная высота контейнера в пикселях или других единицах
-     * @param string|int|float|null $maxHeight
+     * Установка максимальной высоты контейнера в пикселях или других единицах
+     * @param string|int|float|null $height
      * @return Layout
      */
-    public function maxHeight(string|int|float $maxHeight = null): self {
+    public function setHeightMax(string|int|float $height = null): self {
 
-        $this->maxHeight = $maxHeight;
-
+        $this->height_max = $height;
         return $this;
+    }
+
+
+    /**
+     * Получение максимальной высоты контейнера в пикселях или других единицах
+     * @return string|int|float|null
+     */
+    public function getHeightMax(): string|int|float|null {
+        return $this->height_max;
     }
 
 
 
     /**
-     * Отступ между элементами в пикселях или других единицах
+     * Установка отступа между элементами в пикселях или других единицах
      * @param string|int|float|null $gap
      * @return Layout
      */
-    public function gap(string|int|float $gap = null): self {
+    public function setGap(string|int|float $gap = null): self {
 
         $this->gap = $gap;
-
         return $this;
+    }
+
+
+    /**
+     * Получение отступа между элементами в пикселях или других единицах
+     * @return string|int|float|null
+     */
+    public function getGap(): string|int|float|null {
+        return $this->gap;
     }
 
 
@@ -278,6 +386,23 @@ class Layout {
 
 
     /**
+     * Получение элементов
+     * @return Item[]
+     */
+    public function getItems(): array {
+        return $this->items;
+    }
+
+
+    /**
+     * Очистка элементов
+     */
+    public function clearItems(): void {
+        $this->items = [];
+    }
+
+
+    /**
      * Добавление настроек под размер
      * @param string $size
      * @return Size
@@ -289,6 +414,23 @@ class Layout {
         $this->sizes[$size] = $size_instance;
 
         return $size_instance;
+    }
+
+
+    /**
+     * Получение настроек под размер
+     * @return Size[]
+     */
+    public function getSizes(): array {
+        return $this->sizes;
+    }
+
+
+    /**
+     * Очистка настроек под размер
+     */
+    public function clearSizes(): void {
+        $this->sizes = [];
     }
 
 
@@ -311,11 +453,11 @@ class Layout {
         if ( ! is_null($this->overflowX)) { $result['overflowX'] = $this->overflowX; }
         if ( ! is_null($this->overflowY)) { $result['overflowY'] = $this->overflowY; }
         if ( ! is_null($this->width))     { $result['width']     = $this->width; }
-        if ( ! is_null($this->minWidth))  { $result['minWidth']  = $this->minWidth; }
-        if ( ! is_null($this->maxWidth))  { $result['maxWidth']  = $this->maxWidth; }
+        if ( ! is_null($this->width_min))  {$result['minWidth'] = $this->width_min; }
+        if ( ! is_null($this->width_max))  {$result['maxWidth'] = $this->width_max; }
         if ( ! is_null($this->height))    { $result['height']    = $this->height; }
-        if ( ! is_null($this->maxHeight)) { $result['maxHeight'] = $this->maxHeight; }
-        if ( ! is_null($this->minHeight)) { $result['minHeight'] = $this->minHeight; }
+        if ( ! is_null($this->height_max)) {$result['maxHeight'] = $this->height_max; }
+        if ( ! is_null($this->height_min)) {$result['minHeight'] = $this->height_min; }
         if ( ! is_null($this->gap))       { $result['gap']       = $this->gap; }
 
 
